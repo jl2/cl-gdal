@@ -1,0 +1,12 @@
+* cl-gdal
+** About
+Common Lisp bindings to [[https://github.com/osgeo/GDAL][GDAL]].
+
+** License
+ISC
+
+Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+
+
+* Todo
+** TODO Add higher-level "Lispy" interface.
