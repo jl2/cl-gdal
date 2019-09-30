@@ -15,22 +15,22 @@
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 (in-package :cl-user)
-(defpackage :gdal.examples-asd
+(defpackage :cl-gdal.examples-asd
   (:use :cl :asdf))
-(in-package :gdal.examples-asd)
+(in-package :cl-gdal.examples-asd)
 
-(asdf:defsystem #:gdal.examples
+(asdf:defsystem #:cl-gdal.examples
   :description "Gdal binding examples."
   :author "Jeremiah LaRocco <jeremiah_larocco@fastmail.com>"
   :license  "ISC"
   :version "0.0.1"
   :serial t
-  :depends-on ( :gdal
+  :depends-on ( :cl-gdal
                 :j-utils
                 :alexandria)
   
   :components ((:module "examples"
                         :components 
                         ((:file "package")
-                         ;; (:file "random-objects")
-                         ))))
+                         (:file "getting-started-1")
+                         (:file "getting-started-2")))))

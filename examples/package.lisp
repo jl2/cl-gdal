@@ -14,6 +14,7 @@
 ;; ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-(defpackage :gdal.examples
+(defpackage :cl-gdal.examples
   (:use #:cl #:j-utils #:alexandria #:gdal.ll)
-  (:export #:getting-started-1))
+  (:export #:getting-started-1
+           #:getting-started-2))

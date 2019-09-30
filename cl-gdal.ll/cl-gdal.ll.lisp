@@ -31,17 +31,18 @@
                     :language "c"
                     :spec-path '(cl-gdal specs)
 
-                    ;; :symbol-regex (("^GDAL_(.*)" () "\\1")
-                    ;;                ("^Gdal(.*)" () "\\1")
-                    ;;                ("^gdal(.*)" () "\\1"))
+                    :symbol-regex (("^GDAL_(.*)" () "\\1")
+                                   ("^Gdal(.*)" () "\\1")
+                                   ("^gdal(.*)" () "\\1"))
                     
-                    :exclude-definitions #.(concatenate 'list
-                                                        '("^va_list$" "Random" "Signal" "abort")
-                                                        (loop for sym being each external-symbol of :cl
-                                                           for sym-str = (string-downcase (format nil "~a" sym))
-                                                           then (string-downcase (format nil "~a" sym))
-                                                           when (cl-ppcre:scan "^\\w+$" sym-str)
-                                                           collect (format nil "^~a$" sym-str)))
+                    :exclude-definitions
+                    #.(concatenate 'list
+                                   '("^va_list$" "Random" "Signal" "abort")
+                                   (loop for sym being each external-symbol of :cl
+                                      for sym-str = (string-downcase (format nil "~a" sym))
+                                      then (string-downcase (format nil "~a" sym))
+                                      when (cl-ppcre:scan "^\\w+$" sym-str)
+                                      collect (format nil "^~a$" sym-str)))
 
 
                     :symbol-exceptions (("random" . "gdal-random")

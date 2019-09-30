@@ -1,4 +1,4 @@
-;;;; getting-started-1.lisp
+;;;; getting-started-2.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -16,16 +16,26 @@
 
 (in-package :cl-gdal.examples)
 
-(defun getting-started-1 (&key
+(defun getting-started-2 (&key
                             (file-name "/Users/jeremiahlarocco/boulder.tif"))
   (gdal:gdal-all-register)
-  (let ((img (gdal:gdal-open file-name gdal:+ga-read-only+))
-        (projection (autowrap:alloc-ptr :double 6)))
+  (let* ((img (gdal:gdal-open file-name gdal:+ga-read-only+))
+         (projection (autowrap:alloc-ptr :double 6))
+         (driver (gdal:gdal-get-dataset-driver img))
+         (driver-short-name (gdal:gdal-get-driver-short-name driver))
+         (driver-long-name (gdal:gdal-get-driver-long-name driver))
+         (raster-x-size (gdal:gdal-get-raster-x-size img))
+         (raster-y-size (gdal:gdal-get-raster-y-size img))
+         (raster-count (gdal:gdal-get-raster-count img)))
+    (format t "Driver short name: ~a~%" driver-short-name)
+    (format t "Driver long name: ~a~%" driver-long-name)
+    (format t "Raster x size: ~a~%" raster-x-size)
+    (format t "Raster y size: ~a~%" raster-y-size)
+    (format t "Raster count: ~a~%" raster-count)
+    
     (loop for i below 6 do (setf (cffi:mem-ref projection :double i) 0.0))
     (format t "~a~%" (gdal:gdal-get-geo-transform img projection))
     (loop
        for i below 6 do
          (format t "projection[~a] = ~a~%" i (cffi:mem-aref projection :double i)))
     (autowrap:free projection)))
-
-
