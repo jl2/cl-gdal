@@ -17,7 +17,8 @@
 (in-package :cl-gdal.examples)
 
 (defun getting-started-2 (&key
-                            (file-name "/Users/jeremiahlarocco/boulder.tif"))
+                            (file-name 
+                             (autowrap:asdf-path '(:cl-gdal.examples "boulder.tif"))))
   (gdal:gdal-all-register)
   (let* ((img (gdal:gdal-open file-name gdal:+ga-read-only+))
          (projection (autowrap:alloc-ptr :double 6))
@@ -27,6 +28,7 @@
          (raster-x-size (gdal:gdal-get-raster-x-size img))
          (raster-y-size (gdal:gdal-get-raster-y-size img))
          (raster-count (gdal:gdal-get-raster-count img)))
+
     (format t "Driver short name: ~a~%" driver-short-name)
     (format t "Driver long name: ~a~%" driver-long-name)
     (format t "Raster x size: ~a~%" raster-x-size)
@@ -34,7 +36,7 @@
     (format t "Raster count: ~a~%" raster-count)
     
     (loop for i below 6 do (setf (cffi:mem-ref projection :double i) 0.0))
-    (format t "~a~%" (gdal:gdal-get-geo-transform img projection))
+    (format t "(gdal:gdal-get-geo-transform img projection) ~a~%" (gdal:gdal-get-geo-transform img projection))
     (loop
        for i below 6 do
          (format t "projection[~a] = ~a~%" i (cffi:mem-aref projection :double i)))

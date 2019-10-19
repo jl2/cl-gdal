@@ -28,12 +28,13 @@
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
                                        #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
-                    :language "c"
+                    ;; :language "c"
                     :spec-path '(cl-gdal specs)
 
                     :symbol-regex (("^GDAL_(.*)" () "\\1")
                                    ("^Gdal(.*)" () "\\1")
-                                   ("^gdal(.*)" () "\\1"))
+                                   ("^gdal(.*)" () "\\1")
+                                   ("^(.*)$" () "\\1"))
                     
                     :exclude-definitions
                     #.(concatenate 'list

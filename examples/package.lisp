@@ -17,4 +17,5 @@
 (defpackage :cl-gdal.examples
   (:use #:cl #:j-utils #:alexandria #:gdal.ll)
   (:export #:getting-started-1
-           #:getting-started-2))
+           #:getting-started-2
+           #:getting-started-3))

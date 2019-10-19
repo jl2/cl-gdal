@@ -20,17 +20,19 @@
 (in-package :cl-gdal.examples-asd)
 
 (asdf:defsystem #:cl-gdal.examples
-  :description "Gdal binding examples."
+  :description "GDAL binding examples."
   :author "Jeremiah LaRocco <jeremiah_larocco@fastmail.com>"
   :license  "ISC"
   :version "0.0.1"
   :serial t
-  :depends-on ( :cl-gdal
-                :j-utils
-                :alexandria)
+  :depends-on (:cl-gdal
+               :j-utils
+               :alexandria)
   
   :components ((:module "examples"
                         :components 
                         ((:file "package")
                          (:file "getting-started-1")
-                         (:file "getting-started-2")))))
+                         (:file "getting-started-2")
+                         (:static-file "boulder.tif")
+                         (:static-file "o37103d2.tif")))))
