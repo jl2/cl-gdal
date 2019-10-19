@@ -25,7 +25,7 @@
                          (cl-ppcre:scan "^\\+__" ssym)
                          (cl-ppcre:scan "^__" ssym)
                          (cl-ppcre:scan "&" ssym)
-                         (cl-ppcre:scan "(_|-)H+" ssym)
+                         ;; (cl-ppcre:scan "(_|-)H+" ssym)
                          (cl-ppcre:scan "PTHREAD" ssym)))
    collect (export sym))
 

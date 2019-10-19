@@ -23,9 +23,8 @@
   (gdal:gdal-all-register)
 
   (let* ((img (gdal:gdal-open-ex file-name gdal:+ga-read-only+ ))
-         (layer (autowrap:alloc-ptr '(gdal:og 1))
-
-         )
+         (dataset (autowrap:alloc-ptr '(gdal:ogr-layer-h 1)))
+         (layer (autowrap:alloc-ptr '(gdal:ogr-layer-h 1))))
 
     (format t "Driver short name: ~a~%" driver-short-name)
     (format t "Driver long name: ~a~%" driver-long-name)

@@ -23,31 +23,41 @@
     (t (:default "libgdal")))
 (cffi:use-foreign-library gdal-lib)
 
-(autowrap:c-include #+darwin"/opt/local/include/gdal.h"
-                    #+linux"/usr/include/gdal/gdal.h"
-                    :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
-                                       #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
-                                       #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
-                    ;; :language "c"
-                    :spec-path '(cl-gdal specs)
+(autowrap:c-include
+ #+darwin"/opt/local/include/gdal.h"
+ #+linux"/usr/include/gdal/gdal.h"
+ :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
+                    #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
+                    #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
+ :spec-path '(cl-gdal specs)
 
-                    :symbol-regex (("^GDAL_(.*)" () "\\1")
-                                   ("^Gdal(.*)" () "\\1")
-                                   ("^gdal(.*)" () "\\1")
-                                   ("^(.*)$" () "\\1"))
-                    
-                    :exclude-definitions
-                    #.(concatenate 'list
-                                   '("^va_list$" "Random" "Signal" "abort")
-                                   (loop for sym being each external-symbol of :cl
-                                      for sym-str = (string-downcase (format nil "~a" sym))
-                                      then (string-downcase (format nil "~a" sym))
-                                      when (cl-ppcre:scan "^\\w+$" sym-str)
-                                      collect (format nil "^~a$" sym-str)))
+ 
+ :exclude-definitions ("^va_list$" "Random" "Signal"
+                                   "acos" "asin" "atan" "cos" "sin" "tan"
+                                   "log" "exp" "acosh" "cosh" "asinh" "sinh"
+                                   "tanh" "atanh"  "sqrt" "floor" "round"
+                                   "time" "close" "open" "read" "write"
+                                   "sleep" "truncate" "ceil"
+                                   "abs" "abort" "random" "remove" "signal"))
+ ;; :language "c"
+ ;; :symbol-regex (("^GDAL_(.*)$" () "\\1")
+ ;;                ("^Gdal(.*)$" () "\\1")
+ ;;                ("^gdal(.*)$" () "\\1")
+ ;;                ;; ("^(OGR.*)$" () "\\1")
+ ;;                ;; ("^(Ogr.*)$" () "\\1")
+ ;;                ;; ("^(ogr.*)$" () "\\1")
+ ;;                )
+
+ ;; #.(concatenate 'list
+ ;; (loop for sym being each external-symbol of :cl
+ ;;    for sym-str = (string-downcase (format nil "~a" sym))
+ ;;    then (string-downcase (format nil "~a" sym))
+ ;;    when (cl-ppcre:scan "^\\w+$" sym-str)
+ ;;    collect (format nil "^~a$" sym-str))
+ ;; )
 
 
-                    :symbol-exceptions (("random" . "gdal-random")
-                                        ("remove" . "gdal-remove")
-                                        ("signal" . "gdal-signal")
-                                        ("abort" . "gdal-abort")
-                                        ("abs" . "gdal-abs")))
+ ;; :symbol-exceptions (("random" . "gdal-random")
+ ;;                     ("remove" . "gdal-remove")
+ ;;                     ("signal" . "gdal-signal"))
+
