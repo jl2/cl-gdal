@@ -22,22 +22,11 @@
 
   (gdal:gdal-all-register)
 
-  (let* ((img (gdal:gdal-open-ex file-name gdal:+ga-read-only+ ))
-         (dataset (autowrap:alloc-ptr '(gdal:ogr-layer-h 1)))
-         (layer (autowrap:alloc-ptr '(gdal:ogr-layer-h 1))))
-
-    (format t "Driver short name: ~a~%" driver-short-name)
-    (format t "Driver long name: ~a~%" driver-long-name)
-    (format t "Raster x size: ~a~%" raster-x-size)
-    (format t "Raster y size: ~a~%" raster-y-size)
-    (format t "Raster count: ~a~%" raster-count)
+  (let* ((np (cffi:null-pointer))
+         (dataset (gdal:gdal-open-ex file-name gdal:+of-vector+ np np np))
+         (layer (gdal:ogr-ds-get-layer dataset 0)))
+    (format t "Dataset~%Name: ~a~%Layer Count: ~a~%" (gdal:ogr-ds-get-name dataset) (gdal:ogr-ds-get-layer-count dataset))
+    (format t "~%Layer~%Name: ~a~%" (gdal:ogr-l-get-name layer))
     
-    (loop for i below 6 do (setf (cffi:mem-ref projection :double i) 0.0))
-    (format t "~a~%" (gdal:gdal-get-geo-transform img projection))
-    (loop
-       for i below 6 do
-         (format t "projection[~a] = ~a~%" i (cffi:mem-aref projection :double i)))
-        layer = dataSource.GetLayer()
-    featureCount = layer.GetFeatureCount()
-
-    (autowrap:free projection)))
+    (autowrap:free layer)
+    (autowrap:free dataset)))

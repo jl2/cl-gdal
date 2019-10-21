@@ -31,6 +31,7 @@
                     #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
  :spec-path '(cl-gdal specs)
 
+ :trace-c2ffi t
  
  :exclude-definitions ("^va_list$" "Random" "Signal"
                                    "acos" "asin" "atan" "cos" "sin" "tan"
@@ -38,15 +39,16 @@
                                    "tanh" "atanh"  "sqrt" "floor" "round"
                                    "time" "close" "open" "read" "write"
                                    "sleep" "truncate" "ceil"
-                                   "abs" "abort" "random" "remove" "signal"))
- ;; :language "c"
- ;; :symbol-regex (("^GDAL_(.*)$" () "\\1")
- ;;                ("^Gdal(.*)$" () "\\1")
- ;;                ("^gdal(.*)$" () "\\1")
- ;;                ;; ("^(OGR.*)$" () "\\1")
- ;;                ;; ("^(Ogr.*)$" () "\\1")
- ;;                ;; ("^(ogr.*)$" () "\\1")
- ;;                )
+                                   "abs" "abort" "random" "remove" "signal")
+ :language "c"
+ :symbol-regex (("^GDAL_(.*)$" () "\\1")
+                ("^Gdal(.*)$" () "\\1")
+                ("^gdal(.*)$" () "\\1")
+                ("^(OGR.*)$" () "\\1")
+                ("^(Ogr.*)$" () "\\1")
+                ("^(ogr.*)$" () "\\1")
+                ))
+
 
  ;; #.(concatenate 'list
  ;; (loop for sym being each external-symbol of :cl

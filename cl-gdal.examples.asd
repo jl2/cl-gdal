@@ -34,5 +34,6 @@
                         ((:file "package")
                          (:file "getting-started-1")
                          (:file "getting-started-2")
+                         (:file "getting-started-3")
                          (:static-file "boulder.tif")
                          (:static-file "o37103d2.tif")))))
