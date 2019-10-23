@@ -44,7 +44,24 @@
                         (gdal:ogr-fd-get-field-count fdefn))
                 (dotimes (i (gdal:ogr-fd-get-field-count fdefn))
                   (multiple-value-bind (value name) (gdal:get-field-value feature fdefn i)
-                      (format t "~a = ~a~%" name value)))
-                (autowrap:free feature))
+                    (format t "~a = ~a~%" name value)))
+
+                (let* ((geometry (gdal:ogr-f-get-geometry-ref feature))
+                       (gtype (gdal:ogr-g-get-geometry-type geometry))
+                       (flat-type (gdal:ogr-gt-flatten gtype))
+                       (envelope (autowrap:alloc 'gdal:ogr-envelope)))
+                  (format t "Geometry type: ~a ~a~%" gtype flat-type)
+                  (gdal:ogr-g-get-envelope geometry envelope)
+                  (format t "Envelope: (~a ~a) (~a ~a)~%"
+                          (gdal:ogr-envelope.min-x envelope)
+                          (gdal:ogr-envelope.min-y envelope)
+                          (gdal:ogr-envelope.max-x envelope)
+                          (gdal:ogr-envelope.max-y envelope))
+                          
+                  ;; ;; (when (= gdal:+wkb-point+ flat-type)
+                  (format t "Point: (~a ~a)~%"
+                            (gdal:ogr-g-get-x geometry 0)
+                            (gdal:ogr-g-get-y geometry 0)))
+                (gdal:ogr-f-destroy feature))
            (autowrap:free layer)))
     (autowrap:free dataset)))
