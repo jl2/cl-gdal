@@ -18,5 +18,6 @@
 (defpackage :cl-gdal
   (:use #:cl #:gdalll)
   (:nicknames #:gdal)
-  (:export 
+  (:export
+   #:get-field-value
            ))

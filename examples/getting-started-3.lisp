@@ -38,25 +38,13 @@
               for fdefn = (gdal:ogr-l-get-layer-defn layer)
               do
                 (format t "feature = ~a~%" feature)
-                (format t "fdefn = ~a name: ~a ~%field count: ~a~%"
+                (format t "fdefn = ~a nmae: ~a ~%field count: ~a~%"
                         fdefn
                         (gdal:ogr-fd-get-name fdefn)
                         (gdal:ogr-fd-get-field-count fdefn))
-                (loop
-                   for i below (gdal:ogr-fd-get-field-count fdefn)
-                   for field-defn = (gdal:ogr-fd-get-field-defn fdefn i)
-                   for field-type = (gdal:ogr-fld-get-type field-defn)
-                   do
-                   ;; TODO: Make this a helper function
-                     (let ((value (cond ((= field-type gdal:+oft-integer+)
-                                         (gdal:ogr-f-get-field-as-integer feature i))
-                                        ((= field-type gdal:+oft-integer64+)
-                                         (gdal:ogr-f-get-field-as-integer64 feature i))
-                                        ((= field-type gdal:+oft-real+)
-                                         (gdal:ogr-f-get-field-as-double feature i))
-                                        (t
-                                         (gdal:ogr-f-get-field-as-string feature i)))))
-                       (format t "~a ~a (~a) = ~a~%" field-defn (gdal:ogr-fld-get-name-ref field-defn) i value)))
+                (dotimes (i (gdal:ogr-fd-get-field-count fdefn))
+                  (multiple-value-bind (value name) (gdal:get-field-value feature fdefn i)
+                      (format t "~a = ~a~%" name value)))
                 (autowrap:free feature))
            (autowrap:free layer)))
     (autowrap:free dataset)))

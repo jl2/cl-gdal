@@ -34,3 +34,17 @@
 (declaim (inline nullp home-dir image-codec-by-name))
 (defun nullp ()
   (cffi:null-pointer))
+
+(defun get-field-value (feature fdefn idx)
+  (let* ((field-defn (gdal:ogr-fd-get-field-defn fdefn idx))
+         (field-type (gdal:ogr-fld-get-type field-defn))
+         (field-name (gdal:ogr-fld-get-name-ref field-defn))
+         (value (cond ((= field-type gdal:+oft-integer+)
+                       (gdal:ogr-f-get-field-as-integer feature idx))
+                      ((= field-type gdal:+oft-integer64+)
+                       (gdal:ogr-f-get-field-as-integer64 feature idx))
+                      ((= field-type gdal:+oft-real+)
+                       (gdal:ogr-f-get-field-as-double feature idx))
+                      (t
+                       (gdal:ogr-f-get-field-as-string feature idx)))))
+    (values value field-name field-type)))
