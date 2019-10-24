@@ -48,3 +48,52 @@
                       (t
                        (gdal:ogr-f-get-field-as-string feature idx)))))
     (values value field-name field-type)))
+
+(defun get-layer-envelope (layer)
+  (gdal:ogr-l-reset-reading layer)
+  (let (;; (layer-envelope (autowrap:alloc 'gdal:ogr-envelope))
+        (geo-envelope (autowrap:alloc 'gdal:ogr-envelope))
+        (min-x most-positive-double-float)
+        (max-x most-negative-double-float)
+        (min-y most-positive-double-float)
+        (max-y most-negative-double-float))
+    (loop
+       for feature = (gdal:ogr-l-get-next-feature layer)
+       until (cffi:null-pointer-p (gdalll::ogr-feature-h-ptr feature))
+       for geometry = (gdal:ogr-f-get-geometry-ref feature)
+       do
+         (gdal:ogr-g-get-envelope geometry geo-envelope)
+         (setf min-x (min min-x (gdal:ogr-envelope.min-x geo-envelope)))
+         (setf max-x (max max-x (gdal:ogr-envelope.max-x geo-envelope)))
+         (setf min-y (min min-y (gdal:ogr-envelope.min-y geo-envelope)))
+         (setf max-y (max max-y (gdal:ogr-envelope.max-y geo-envelope))))
+    (autowrap:free geo-envelope)
+    (values min-x max-x min-y max-y)))
+
+(defun get-dataset-envelope (dataset)
+  (let (;; (layer-envelope (autowrap:alloc 'gdal:ogr-envelope))
+        (geo-envelope (autowrap:alloc 'gdal:ogr-envelope))
+        (min-x most-positive-double-float)
+        (max-x most-negative-double-float)
+        (min-y most-positive-double-float)
+        (max-y most-negative-double-float))
+    (loop
+       for i below (gdal:ogr-ds-get-layer-count dataset)
+       for layer = (gdal:ogr-ds-get-layer dataset i)
+       initially   (gdal:ogr-l-reset-reading layer)
+
+       for layer-name = (gdal:ogr-l-get-name layer)
+       do
+         (loop
+            for feature = (gdal:ogr-l-get-next-feature layer)
+            until (cffi:null-pointer-p (gdalll::ogr-feature-h-ptr feature))
+            for geometry = (gdal:ogr-f-get-geometry-ref feature)
+            do
+              (gdal:ogr-g-get-envelope geometry geo-envelope)
+              (setf min-x (min min-x (gdal:ogr-envelope.min-x geo-envelope)))
+              (setf max-x (max max-x (gdal:ogr-envelope.max-x geo-envelope)))
+              (setf min-y (min min-y (gdal:ogr-envelope.min-y geo-envelope)))
+              (setf max-y (max max-y (gdal:ogr-envelope.max-y geo-envelope))))
+         (autowrap:free layer)
+       finally (autowrap:free dataset))
+    (autowrap:free geo-envelope)))

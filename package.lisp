@@ -20,4 +20,5 @@
   (:nicknames #:gdal)
   (:export
    #:get-field-value
-           ))
+   #:get-dataset-envelope
+   #:get-layer-envelope))
