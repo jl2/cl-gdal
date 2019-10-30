@@ -46,20 +46,4 @@
                 ("^gdal(.*)$" () "\\1")
                 ("^(OGR.*)$" () "\\1")
                 ("^(Ogr.*)$" () "\\1")
-                ("^(ogr.*)$" () "\\1")
-                ))
-
-
- ;; #.(concatenate 'list
- ;; (loop for sym being each external-symbol of :cl
- ;;    for sym-str = (string-downcase (format nil "~a" sym))
- ;;    then (string-downcase (format nil "~a" sym))
- ;;    when (cl-ppcre:scan "^\\w+$" sym-str)
- ;;    collect (format nil "^~a$" sym-str))
- ;; )
-
-
- ;; :symbol-exceptions (("random" . "gdal-random")
- ;;                     ("remove" . "gdal-remove")
- ;;                     ("signal" . "gdal-signal"))
-
+                ("^(ogr.*)$" () "\\1")))
