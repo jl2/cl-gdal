@@ -95,4 +95,5 @@
               (setf max-y (max max-y (gdal:ogr-envelope.max-y geo-envelope))))
          (autowrap:free layer)
        finally (autowrap:free dataset))
-    (autowrap:free geo-envelope)))
+    (autowrap:free geo-envelope)
+    (values min-x max-x min-y max-y)))
