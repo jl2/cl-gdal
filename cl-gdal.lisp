@@ -32,8 +32,7 @@
 (defparameter *log-level* 1)
 
 (declaim (inline nullp home-dir image-codec-by-name))
-(defun nullp ()
-  (cffi:null-pointer))
+(defparameter +np+ (cffi:null-pointer))
 
 (defun get-field-value (feature fdefn idx)
   (let* ((field-defn (gdal:ogr-fd-get-field-defn fdefn idx))
