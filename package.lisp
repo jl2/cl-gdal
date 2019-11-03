@@ -19,6 +19,7 @@
   (:use #:cl #:gdalll)
   (:nicknames #:gdal)
   (:export
+   #:+np+
    #:get-field-value
    #:get-dataset-envelope
    #:get-layer-envelope))
