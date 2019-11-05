@@ -58,7 +58,7 @@
         (max-y most-negative-double-float))
     (loop
        for feature = (ogr-l-get-next-feature layer)
-       until (cffi:null-pointer-p (:ogr-feature-h-ptr feature))
+       until (cffi:null-pointer-p (gdalll::ogr-feature-h-ptr feature))
        for geometry = (ogr-f-get-geometry-ref feature)
        do
          (ogr-g-get-envelope geometry geo-envelope)
@@ -79,13 +79,11 @@
     (loop
        for i below (ogr-ds-get-layer-count dataset)
        for layer = (ogr-ds-get-layer dataset i)
-       initially   (ogr-l-reset-reading layer)
-
        for layer-name = (ogr-l-get-name layer)
        do
          (loop
             for feature = (ogr-l-get-next-feature layer)
-            until (cffi:null-pointer-p (:ogr-feature-h-ptr feature))
+            until (cffi:null-pointer-p (gdalll::ogr-feature-h-ptr feature))
             for geometry = (ogr-f-get-geometry-ref feature)
             do
               (ogr-g-get-envelope geometry geo-envelope)
