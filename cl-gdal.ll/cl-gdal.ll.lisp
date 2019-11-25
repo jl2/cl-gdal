@@ -27,7 +27,7 @@
  #+darwin"/opt/local/include/gdal.h"
  #+linux"/usr/include/gdal/gdal.h"
  :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
-                    #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
+                    #+linux"/usr/include/x86_64-linux-gnu/c++/9/"
                     #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
  :spec-path '(cl-gdal specs)
 

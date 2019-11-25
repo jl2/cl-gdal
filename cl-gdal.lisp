@@ -91,7 +91,6 @@
               (setf max-x (max max-x (ogr-envelope.max-x geo-envelope)))
               (setf min-y (min min-y (ogr-envelope.min-y geo-envelope)))
               (setf max-y (max max-y (ogr-envelope.max-y geo-envelope))))
-         (autowrap:free layer)
-       finally (autowrap:free dataset))
+         (autowrap:free layer))
     (autowrap:free geo-envelope)
     (values min-x max-x min-y max-y)))
